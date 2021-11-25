@@ -5,13 +5,28 @@ import {Service, ServiceBroker, Context} from "moleculer";
 
 
 //Local Imports
+import nodemailer from "nodemailer";
 
 export default class EmailService extends Service {
 
 	public constructor(public broker: ServiceBroker) {
-		super(broker);
+        super(broker);
+
+        let transporter = nodemailer.createTransport(
+            {
+                service: 'gmail',
+                auth:{
+                    user: process.env.MAIL_USERNAME,
+                    pass: process.env.MAIL_PASSWORD,
+                }
+            }
+        );
+
 		this.parseServiceSchema({
-			name: "email",
+            name: "email",
+            settings: {
+
+            },
 			actions:{
 				testEmail: {
 					rest: {
