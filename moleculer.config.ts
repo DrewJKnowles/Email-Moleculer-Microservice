@@ -173,29 +173,20 @@ const brokerConfig: BrokerOptions = {
 
 	// Enable built-in tracing function. More info: https://moleculer.services/docs/0.14/tracing.html
 	tracing: {
-		enabled: true,
+		enabled: false,
 		// Available built-in exporters: "Console", "Datadog", "Event", "EventLegacy", "Jaeger", "Zipkin"
 		exporter: {
-			type: "Jaeger", // Console exporter is only for development!
+			type: "Console", // Console exporter is only for development!
 			options: {
-					// HTTP Reporter endpoint. If set, HTTP Reporter will be used.
-					endpoint: null,
-						// UDP Sender host option.
-						host: "127.0.0.1",
-						// UDP Sender port option.
-						port: 6832,
-						// Jaeger Sampler configuration.
-						sampler: {
-						// Sampler type. More info: https://www.jaegertracing.io/docs/1.14/sampling/#client-sampling-configuration
-						type: "Const",
-							// Sampler specific options.
-							options: {}
-					},
-					// Additional options for `Jaeger.Tracer`
-					tracerOptions: {},
-					// Default tags. They will be added into all span tags.
-					defaultTags: null
-				},
+				// Custom logger
+				logger: null,
+					// Using colors
+					colors: true,
+					// Width of row
+					width: 100,
+					// Gauge width in the row
+					gaugeWidth: 40,
+			},
 		},
 	},
 

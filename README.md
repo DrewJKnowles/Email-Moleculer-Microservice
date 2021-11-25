@@ -1,9 +1,11 @@
 [![Moleculer](https://badgen.net/badge/Powered%20by/Moleculer/0e83cd)](https://moleculer.services)
 
-# Email Moleculer Microservice
-This is a moleculer microservice that allows you to send emails via the services. The goal of the service is for you to run it on your system and make calls passing the email type and location. And thus the service system should be able to send out the emails. As it stands this services is a 
+# Email-Moleculer-Microservice
 
-## WORK IN PROGRESS APPLICATION
+The idea of this project is to have a microservice that allows you to set an email template or list of templates. By calling on the email service it will select the template and load in your data to that email template. Send the email to the desire location.
+
+This is a [Moleculer](https://moleculer.services/)-based microservices project. Generated with the [Moleculer CLI](https://moleculer.services/docs/0.14/moleculer-cli.html).
+
 ## Usage
 Start the project with `npm run dev` command. 
 After starting, open the http://localhost:3000/ URL in your browser. 
@@ -12,9 +14,15 @@ On the welcome page you can test the generated services via API Gateway and chec
 In the terminal, try the following commands:
 - `nodes` - List all connected nodes.
 - `actions` - List all registered service actions.
+- `call greeter.hello` - Call the `greeter.hello` action.
+- `call greeter.welcome --name John` - Call the `greeter.welcome` action with the `name` parameter.
+
+
 
 ## Services
 - **api**: API Gateway services
+- **Email**: Email Service that will send out emails to addresses
+
 
 ## Useful links
 
@@ -29,3 +37,5 @@ In the terminal, try the following commands:
 - `npm run lint`: Run ESLint
 - `npm run ci`: Run continuous test mode with watching
 - `npm test`: Run tests & generate coverage report
+- `npm run dc:up`: Start the stack with Docker Compose
+- `npm run dc:down`: Stop the stack with Docker Compose
