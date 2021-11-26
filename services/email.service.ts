@@ -12,15 +12,23 @@ export default class EmailService extends Service {
 	public constructor(public broker: ServiceBroker) {
         super(broker);
 
+        const message = {
+            from: "testEmail@email.com",
+            to: "testEmail@email.com",
+            subject: "Subject",
+            html: "<h1>Hello SMTP Email</h1>"
+        }
+
         let transporter = nodemailer.createTransport(
             {
-                service: 'gmail',
-                auth:{
+                host: "smtp.mailtrap.io",
+                port: 2525,
+                auth: {
                     user: process.env.MAIL_USERNAME,
                     pass: process.env.MAIL_PASSWORD,
                 }
-            }
-        );
+            });
+
 
 		this.parseServiceSchema({
             name: "email",
@@ -34,7 +42,7 @@ export default class EmailService extends Service {
 						path: "/testEmail",
 					},
 					async handler(): Promise<string> {
-						return this.testEmail();
+						return this.testEmail(transporter, message);
 					},
 				},
 
@@ -57,7 +65,7 @@ export default class EmailService extends Service {
 	}
 
 	// Actions
-	public testEmail(): string {
-		return "Hello Moleculer";
-	}
+	public testEmail(transporter?: any, message?: any): void {
+    transporter.sendMail(message);
+    }
 }
