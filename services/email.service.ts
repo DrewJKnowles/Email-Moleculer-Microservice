@@ -6,7 +6,7 @@ import nodemailer from "nodemailer";
 const Handlebars = require("handlebars");
 
 
-Handlebars.compile('../emailTemplates/email-order-success.html')
+var template = Handlebars.compile('<p>{{firstname}} {{lastname}}</p>')
 
 //Local Imports
 import { EmailMessage } from "./email.type";
@@ -15,13 +15,6 @@ export default class EmailService extends Service {
 
 	public constructor(public broker: ServiceBroker) {
         super(broker);
-
-        const message: EmailMessage = {
-            from: "testEmail@email.com",
-            to: "testEmail@email.com",
-            subject: "Subject",
-            html: "<h1>Hello SMTP Email</h1>"
-        }
 
         let transporter = nodemailer.createTransport(
             {
@@ -51,7 +44,18 @@ export default class EmailService extends Service {
 						emailAddress: "string",
 					},
 					async handler(ctx: Context<{emailAddress: string, subject: string}>): Promise<string> {
-                        console.log(ctx.params.emailAddress + ' ' + ctx.params.subject);
+
+                        const data = {"firstname": "Drew", "lastname": "Knowles"};
+                        // Generate the HTML file
+                        let results = template(data);
+                        
+                        let message: EmailMessage = {
+                            from: "testEmail@email.com",
+                            to: ctx.params.emailAddress,
+                            subject: ctx.params.subject,
+                            html: results
+                        }
+                    
                         return this.testEmail(transporter, message);
 					},
 				},
