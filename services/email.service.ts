@@ -1,18 +1,22 @@
 "use strict";
 
-// Moleculer Imports
+// THIRD PARTY Imports
 import {Service, ServiceBroker, Context} from "moleculer";
+import nodemailer from "nodemailer";
+const Handlebars = require("handlebars");
 
+
+Handlebars.compile('../emailTemplates/email-order-success.html')
 
 //Local Imports
-import nodemailer from "nodemailer";
+import { EmailMessage } from "./email.type";
 
 export default class EmailService extends Service {
 
 	public constructor(public broker: ServiceBroker) {
         super(broker);
 
-        const message = {
+        const message: EmailMessage = {
             from: "testEmail@email.com",
             to: "testEmail@email.com",
             subject: "Subject",
@@ -36,16 +40,6 @@ export default class EmailService extends Service {
 
             },
 			actions:{
-				testEmail: {
-					rest: {
-						method: "GET",
-						path: "/testEmail",
-					},
-					async handler(): Promise<string> {
-						return this.testEmail(transporter, message);
-					},
-				},
-
                 // The action for the email sending
 				send: {
                     rest: 
@@ -54,10 +48,11 @@ export default class EmailService extends Service {
                         path: "/send",
                     },
 					params: {
-						name: "string",
+						emailAddress: "string",
 					},
-					async handler(ctx: Context<{name: string}>): Promise<string> {
-						return 'Ayo this is the test send email';
+					async handler(ctx: Context<{emailAddress: string, subject: string}>): Promise<string> {
+                        console.log(ctx.params.emailAddress + ' ' + ctx.params.subject);
+                        return this.testEmail(transporter, message);
 					},
 				},
 			},
